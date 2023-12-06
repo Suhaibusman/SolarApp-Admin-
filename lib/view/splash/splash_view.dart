@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/utils/constants/image_constant.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/view/welcome/welcome_view.dart';
+import 'package:solar_admin/utils/constants/image_constant.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/view/welcome/welcome_view.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/firebase_options.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/view/splash/splash_view.dart';
+import 'package:solar_admin/firebase_options.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/view/splash/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/utils/constants/app_constant.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/utils/widgets/text_widget.dart';
-import 'package:solar_app/view/nav_bar/complaint_details/reg_complaint_view.dart';
+import 'package:solar_admin/utils/constants/app_constant.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
+import 'package:solar_admin/view/nav_bar/complaint_details/reg_complaint_view.dart';
 
 class ComplaintsView extends StatelessWidget {
   const ComplaintsView({super.key});

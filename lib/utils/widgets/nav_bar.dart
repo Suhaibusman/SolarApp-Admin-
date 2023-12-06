@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:solar_app/controller/nav_bar_controller.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_admin/controller/nav_bar_controller.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
 
 class MyBottomNavbar extends StatelessWidget {
   final BottomNavBarController _bottomNavigationBarController =

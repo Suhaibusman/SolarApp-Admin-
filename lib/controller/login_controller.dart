@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/utils/constants/image_constant.dart';
-import 'package:solar_app/utils/widgets/nav_bar.dart';
+import 'package:solar_admin/utils/constants/image_constant.dart';
+import 'package:solar_admin/utils/widgets/nav_bar.dart';
 
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();

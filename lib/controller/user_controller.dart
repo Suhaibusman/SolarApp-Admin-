@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:solar_app/utils/constants/image_constant.dart';
+import 'package:solar_admin/utils/constants/image_constant.dart';
 
 class ProductController extends GetxController {
   List productname = ["Monocrystalline", "Polycrystalline", "Thin-film"];

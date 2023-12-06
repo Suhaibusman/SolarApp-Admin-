@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/controller/change_password-controller.dart';
-import 'package:solar_app/utils/constants/app_constant.dart';
-import 'package:solar_app/utils/constants/image_constant.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/utils/widgets/custom_button.dart';
-import 'package:solar_app/utils/widgets/custom_textfield.dart';
-import 'package:solar_app/utils/widgets/text_widget.dart';
+import 'package:solar_admin/controller/change_password-controller.dart';
+import 'package:solar_admin/utils/constants/app_constant.dart';
+import 'package:solar_admin/utils/constants/image_constant.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/custom_button.dart';
+import 'package:solar_admin/utils/widgets/custom_textfield.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 class ChangePasswordView extends StatelessWidget {
   ChangePasswordView({super.key});

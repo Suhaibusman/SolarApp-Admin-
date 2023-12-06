@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/utils/constants/app_constant.dart';
-import 'package:solar_app/utils/widgets/text_widget.dart';
+import 'package:solar_admin/utils/constants/app_constant.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 class CustomButton extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;

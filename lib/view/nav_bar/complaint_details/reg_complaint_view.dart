@@ -2,13 +2,13 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/controller/complaint_controller.dart';
-import 'package:solar_app/utils/constants/app_constant.dart';
-import 'package:solar_app/utils/constants/image_constant.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/utils/widgets/custom_button.dart';
-import 'package:solar_app/utils/widgets/helper_widget.dart';
-import 'package:solar_app/utils/widgets/text_widget.dart';
+import 'package:solar_admin/controller/complaint_controller.dart';
+import 'package:solar_admin/utils/constants/app_constant.dart';
+import 'package:solar_admin/utils/constants/image_constant.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/custom_button.dart';
+import 'package:solar_admin/utils/widgets/helper_widget.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 // ignore: must_be_immutable
 class RegisterComplaintView extends StatelessWidget {

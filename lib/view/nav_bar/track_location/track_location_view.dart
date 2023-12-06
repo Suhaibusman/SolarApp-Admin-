@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:solar_app/utils/constants/app_constant.dart';
-import 'package:solar_app/utils/constants/image_constant.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/utils/widgets/text_widget.dart';
+import 'package:solar_admin/utils/constants/app_constant.dart';
+import 'package:solar_admin/utils/constants/image_constant.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 class TrackLocationView extends StatelessWidget {
   const TrackLocationView({super.key});

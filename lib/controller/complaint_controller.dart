@@ -2,11 +2,11 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/utils/constants/app_constant.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/utils/widgets/custom_button.dart';
-import 'package:solar_app/utils/widgets/text_widget.dart';
-import 'package:solar_app/view/nav_bar/complaint_details/complaint_confirmation_view.dart';
+import 'package:solar_admin/utils/constants/app_constant.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/custom_button.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
+import 'package:solar_admin/view/nav_bar/complaint_details/complaint_confirmation_view.dart';
 
 class ComplaintController extends GetxController {
   var selectedValue = 'Urgent'.obs;

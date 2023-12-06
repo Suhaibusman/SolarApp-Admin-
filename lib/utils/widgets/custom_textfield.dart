@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
 
 class CustomUnderLineTextField extends StatelessWidget {
   final TextEditingController? controller;
