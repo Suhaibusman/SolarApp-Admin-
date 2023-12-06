@@ -34,7 +34,7 @@ class BottomNavBarController extends GetxController {
         _currentScreen = TrackLocationView();
         break;
       case 2:
-        _currentScreen = ProductView();
+        _currentScreen = UserView();
         break;
       case 3:
         _currentScreen = ComplaintsView();

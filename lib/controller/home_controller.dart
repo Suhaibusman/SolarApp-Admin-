@@ -34,7 +34,7 @@ class HomeController extends GetxController {
   ];
 
   List pagesView = [
-    ProductView(),
+    UserView(),
     ChatScreen(),
     RegisterComplaintView(),
     MaintainanceView(),
