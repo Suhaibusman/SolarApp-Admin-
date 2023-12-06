@@ -57,12 +57,12 @@ class HomeView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ctext(
-                      text: "${homeController.totalUser.value} Users",
+                      text: "Admin Panel",
                       fontSize: 24,
                       fontWeight: FontWeight.w400,
                       color: white),
                   ctext(
-                      text: "How can I help you?",
+                      text: "Here you can manage your Users and Complaints",
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: lightPrimaryTextColor),

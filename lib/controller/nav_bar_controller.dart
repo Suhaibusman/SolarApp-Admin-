@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:solar_admin/view/nav_bar/complaint_details/coplaints_view.dart';
 import 'package:solar_admin/view/nav_bar/home/home_view.dart';
+import 'package:solar_admin/view/nav_bar/maintainance/maintainance_view.dart';
 import 'package:solar_admin/view/nav_bar/user/user_view.dart';
 import 'package:solar_admin/view/nav_bar/profile/profile_view.dart';
 import 'package:solar_admin/view/nav_bar/track_location/track_location_view.dart';
@@ -31,10 +32,10 @@ class BottomNavBarController extends GetxController {
         _currentScreen = HomeView();
         break;
       case 1:
-        _currentScreen = TrackLocationView();
+        _currentScreen = UserView();
         break;
       case 2:
-        _currentScreen = UserView();
+        _currentScreen = MaintainanceView();
         break;
       case 3:
         _currentScreen = ComplaintsView();

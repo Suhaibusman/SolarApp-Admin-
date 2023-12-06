@@ -20,6 +20,7 @@ class HomeController extends GetxController {
     countOfUser();
     countOfChats();
     countOfmaintainance();
+    countOfComplain();
   }
 
   // ... rest of the code ...
@@ -69,6 +70,35 @@ class HomeController extends GetxController {
     });
   }
 
+  countOfComplain() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('complain').get();
+
+      // Extract and print the count value from the QuerySnapshot
+      int count = querySnapshot.size;
+      print("Count of complaints: $count");
+
+      // Update the totalComplain value
+      totalComplain.value = count;
+    } catch (e) {
+      print("Error fetching count of complaints: $e");
+    }
+  }
+
+  // Future countOfComplain() async {
+  //   // Use `doc()` to access an AggregateQuery
+  //   AggregateQuery querySnapshot = FirebaseFirestore.instance
+  //       .collection('complain')
+  //       .doc() as AggregateQuery;
+
+  //   final result = await querySnapshot.get();
+
+  //   // Extract and return the count value from the document
+  //   print(" count of complain${result.count}");
+  //   totalComplain.value = result.count;
+  // }
+
   void countOfmaintainance() {
     FirebaseFirestore.instance.collection('maintainance').get().then(
       (QuerySnapshot querySnapshot) {
@@ -102,4 +132,16 @@ class HomeController extends GetxController {
       // Handle the error as needed
     });
   }
+
+//   Future<List<DocumentSnapshot>> getComplains() async {
+
+//     CollectionReference userComplain =
+//         firestore.collection("users").doc(userUID).collection("complain");
+//     QuerySnapshot complainSbapshot = await userComplain.get();
+
+//     if (complainSbapshot.docs.isNotEmpty) {
+//       return complainSbapshot.docs;
+//     }
+//     return [];
+//   }
 }

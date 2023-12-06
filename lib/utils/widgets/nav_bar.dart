@@ -53,28 +53,20 @@ class MyBottomNavbar extends StatelessWidget {
                 text: 'Home',
               ),
               GButton(
-                onPressed: () {
-                },
-                icon: Icons.location_on,
-                text: 'Location',
-              ),
-              GButton(
-                onPressed: () {
-                },
-                icon: CupertinoIcons.shopping_cart,
-                text: 'Products',
-              ),
-              GButton(
-                onPressed: () {
-                },
-                icon: CupertinoIcons.exclamationmark_shield_fill,
-                text: 'Complaint',
+                onPressed: () {},
+                icon: CupertinoIcons.person,
+                text: 'Users',
               ),
               GButton(
                 onPressed: () {},
-                icon: Icons.person_2,
-                text: 'Profile',
+                icon: Icons.settings,
+                text: 'Maintenance',
               ),
+              // GButton(
+              //   onPressed: () {},
+              //   icon: CupertinoIcons.shopping_cart,
+              //   text: 'Products',
+              // ),
             ],
           ),
         ),

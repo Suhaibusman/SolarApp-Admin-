@@ -1,4 +1,5 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:solar_admin/utils/widgets/text_widget.dart';
 import 'package:solar_admin/view/nav_bar/complaint_details/complaint_confirmation_view.dart';
 
 class ComplaintController extends GetxController {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   var selectedValue = 'Urgent'.obs;
 
   RxList<DateTime> selectedDates = <DateTime>[].obs;
@@ -34,7 +36,6 @@ class ComplaintController extends GetxController {
       onValueChanged: (dates) {},
     );
   }
-
 
   void lodgeComplain(context) {
     showModalBottomSheet(
@@ -93,6 +94,50 @@ class ComplaintController extends GetxController {
                 mediumSpace
               ]).paddingSymmetric(horizontal: 15, vertical: 10),
         );
+      },
+    );
+  }
+
+  Future<Widget> fetchWholeData() async {
+    return StreamBuilder<QuerySnapshot>(
+      stream: firestore.collection("complain").get().asStream(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return ListView.separated(
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot doc = snapshot.data!.docs[index];
+                //querysnaphot me pora data ayegaa
+                String imagePath = doc["profileImage"];
+                return ListTile(
+                  leading: CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage(
+                      imagePath == ""
+                          ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
+                          : imagePath,
+                    ),
+                  ),
+                  title: Row(
+                    children: [
+                      Text(doc["username"] ?? "No Name"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(doc["phoneNumber"] ?? "No Phone Number"),
+                    ],
+                  ),
+                  subtitle: Text(doc["emailAddress"] ?? "No Email"),
+                );
+              },
+            );
+          } else {
+            return const Center(child: Text("No Data Found"));
+          }
+        }
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
