@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:solar_admin/controller/maintainance_controller.dart';
-import 'package:solar_admin/utils/constants/app_constant.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
-import 'package:solar_admin/utils/widgets/helper_widget.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 // ignore: must_be_immutable
@@ -18,153 +16,71 @@ class MaintainanceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-          backgroundColor: primarycolor,
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            elevation: 0.0,
-            automaticallyImplyLeading: true,
-            leading: reusableBackButton(),
-            title: ctext(
-                text: "Maintainance",
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-                color: white),
-            backgroundColor: Colors.transparent,
+        child: Scaffold(
+      backgroundColor: primarycolor,
+      body: Stack(
+        children: [
+          SvgPicture.asset(
+            SvgConstants.homeBg,
+            width: Get.width,
+            fit: BoxFit.fill,
           ),
-          body: Stack(children: [
-            SvgPicture.asset(
-              SvgConstants.homeBg,
-              width: Get.width,
-              fit: BoxFit.fill,
-            ),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(children: [
-                const Icon(Icons.star, color: Colors.yellow),
-                ctext(
-                    text: " 4.1",
-                    fontWeight: FontWeight.w600,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              AppBar(
+                leading: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios_new_outlined,
                     color: white,
-                    fontSize: 17),
-              ]),
-              extraSmallSpace,
-              ctext(
-                  text: "Solar Panel Service",
-                  fontWeight: FontWeight.w700,
-                  color: white,
-                  fontSize: 17),
-              extraSmallSpace,
-              ctext(
-                  text: "Pricing: \$25",
-                  fontWeight: FontWeight.w600,
-                  color: white,
-                  fontSize: 15),
-            ]).paddingOnly(top: Get.height * 0.1, left: 20, right: 20),
-            Align(
-              alignment: Alignment.topRight,
-              child: Image.asset(
-                ImageConstants.loginImage,
-                height: Get.height * 0.14,
-              ).paddingOnly(top: Get.height * 0.12, right: 20),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: Get.height * 0.65,
-                width: Get.width * 1,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(35),
-                      topRight: Radius.circular(35)),
+                  ),
+                ),
+                title: ctext(
+                  text: 'Mainencance Report',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
                   color: white,
                 ),
-                child: SingleChildScrollView(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      mediumSpace,
-                      ctext(
-                          text: "Select Service",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 17),
-                      extraSmallSpace,
-                      SizedBox(
-                        height: Get.height * 0.12,
-                        child: ListView.builder(
-                          itemCount: 3,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Obx(() {
-                              bool isSelected = index ==
-                                  maintainanceController.initialIndex.value;
-                              return GestureDetector(
-                                onTap: () {
-                                  maintainanceController.initialIndex.value =
-                                      index;
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(right: 12),
-                                  height: Get.height * 0.12,
-                                  width: Get.width * 0.24,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        lightPrimaryTextColor.withOpacity(.3),
-                                    borderRadius: BorderRadius.circular(13),
-                                    border: isSelected
-                                        ? Border.all(
-                                            width: 2, color: btnPrimaryColor)
-                                        : null,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        maintainanceController
-                                            .maintainanceIcons[index],
-                                        size: 35,
-                                        color: lightPrimaryTextColor,
-                                      ),
-                                      extraSmallSpace,
-                                      ctext(
-                                        text:
-                                            maintainanceController.text[index],
-                                        fontSize: 11,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            });
-                          },
-                        ),
-                      ),
-                      mediumSpace,
-                      ctext(
-                          text: "Select Date",
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold),
-                      ctext(
-                          text: "select according to your availability",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: lightPrimaryTextColor),
-                      Divider(),
-                      Container(
-                        padding: EdgeInsets.zero,
-                        height: Get.height * 0.33,
-                        width: double.maxFinite,
-                        color: white,
-                        child: maintainanceController
-                            .buildDefaultMultiDatePickerWithValue(),
-                      ),
-                      Divider(),
-                    ]).paddingSymmetric(horizontal: 16, vertical: 12)),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ).paddingOnly(top: 10, bottom: 10),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  child: FutureBuilder<Widget>(
+                    future: maintainanceController.fetchMaintenanceReport(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return snapshot.data!;
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Error: ${snapshot.error}"),
+                          );
+                        } else {
+                          return const Center(child: Text("No User Found"));
+                        }
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
               ),
-            )
-          ])),
-    );
+            ],
+          ),
+        ],
+      ),
+    ));
   }
 }
