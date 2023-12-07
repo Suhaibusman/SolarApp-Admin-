@@ -51,7 +51,7 @@ class ChatController extends GetxController {
         .collection("messages") // Create a sub-collection for messages
         .add({
       'message': message,
-      'isSent': true,
+      'isSent': false,
       'currenttime': getCurrentTime(),
     });
   }
@@ -68,12 +68,13 @@ class ChatController extends GetxController {
     });
   }
 
-  void handleUserInput() {
+  Future<void> handleUserInput() async {
     if (msgController.text.isEmpty) {
       Get.snackbar("Undefined", "Please enter your complaint");
     } else {
+      await sendMessage(message: msgController.text);
       // copyChats();
-      chatBot();
+      // chatBot();
       msgController.clear();
     }
   }

@@ -117,6 +117,7 @@ class HomeController extends GetxController {
   }
 
   void countOfChats() {
+    print(FirebaseFirestore.instance.collection('chats').id);
     FirebaseFirestore.instance.collection('chats').get().then(
       (QuerySnapshot querySnapshot) {
         if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {

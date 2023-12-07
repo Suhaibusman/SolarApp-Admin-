@@ -81,7 +81,7 @@ class ChatScreen extends StatelessWidget {
                                             child: LayoutBuilder(
                                               builder: (context, constraints) {
                                                 double maxWidth = Get.width *
-                                                    0.5; // Set the maximum width to 50% of the screen width
+                                                    0.4; // Set the maximum width to 50% of the screen width
                                                 double width =
                                                     constraints.maxWidth <
                                                             maxWidth
@@ -219,7 +219,8 @@ class ChatScreen extends StatelessWidget {
                           // print("Messages: ${chatController.messages}");
                           //   chatController.getChats();
                           // chatController.chatBot();
-                          // chatController.handleUserInput();
+                          chatController.handleUserInput();
+                          chatController.msgController.clear();
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),
