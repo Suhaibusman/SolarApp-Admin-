@@ -59,14 +59,14 @@ class MyBottomNavbar extends StatelessWidget {
               ),
               GButton(
                 onPressed: () {},
+                icon: CupertinoIcons.exclamationmark_shield_fill,
+                text: 'complaints',
+              ),
+              GButton(
+                onPressed: () {},
                 icon: Icons.settings,
                 text: 'Maintenance',
               ),
-              // GButton(
-              //   onPressed: () {},
-              //   icon: CupertinoIcons.shopping_cart,
-              //   text: 'Products',
-              // ),
             ],
           ),
         ),

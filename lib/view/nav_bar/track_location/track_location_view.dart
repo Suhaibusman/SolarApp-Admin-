@@ -53,8 +53,7 @@ class TrackLocationView extends StatelessWidget {
                               ImageConstants.monocrystalineImage,
                               height: 70,
                               width: Get.width * 0.3,
-                              fit: BoxFit
-                                  .cover,
+                              fit: BoxFit.cover,
                             ),
                           ),
                           mediumSpaceh,
@@ -91,7 +90,7 @@ class TrackLocationView extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                       color: lightPrimaryTextColor,
                                       fontSize: 12),
-                                  Spacer(),
+                                  const Spacer(),
                                   Icon(CupertinoIcons.phone_circle_fill,
                                       color: btnPrimaryColor),
                                   extraSmallSpace,

@@ -1,18 +1,13 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:solar_admin/utils/constants/app_constant.dart';
-import 'package:solar_admin/utils/themes/color_theme.dart';
-import 'package:solar_admin/utils/widgets/custom_button.dart';
-import 'package:solar_admin/utils/widgets/text_widget.dart';
-import 'package:solar_admin/view/nav_bar/complaint_details/complaint_confirmation_view.dart';
 
 class ComplaintController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   var selectedValue = 'Urgent'.obs;
-
+  String complainid = "hAwbHpKf1lZkVHJBcGvgFrq1sjw1";
+  String compainerName = "abc";
   RxList<DateTime> selectedDates = <DateTime>[].obs;
   List<DateTime> multiDatePickerValueWithDefaultValue = [];
 
@@ -37,65 +32,27 @@ class ComplaintController extends GetxController {
     );
   }
 
-  void lodgeComplain(context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          decoration: BoxDecoration(
-              color: white, borderRadius: BorderRadius.circular(25)),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                smallSpace,
-                ctext(
-                    text: "Rate us!",
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-                ctext(
-                    text: "We are always here for you",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: lightPrimaryTextColor),
-                smallSpace,
-                Center(
-                  child: RatingBar.builder(
-                    itemSize: 32,
-                    initialRating: 3,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 0.2),
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 13,
-                    ),
-                    onRatingUpdate: (rating) {},
-                  ),
-                ),
-                mediumSpace,
-                CustomButton(
-                  borderRadius: BorderRadius.circular(15),
-                  height: 43,
-                  mywidth: 1,
-                  onPressed: () {
-                    Get.to(ComplaintConfirmationView());
-                  },
-                  child: 'Submit',
-                  gradientColors: [
-                    btnPrimaryColor,
-                    btnSecondaryColor,
-                  ],
-                  color: btnSecondaryColor,
-                ),
-                mediumSpace
-              ]).paddingSymmetric(horizontal: 15, vertical: 10),
-        );
-      },
-    );
+  Future<List<DocumentSnapshot>> getComplains() async {
+    CollectionReference userComplain = firestore
+        .collection("complain")
+        .doc(complainid)
+        .collection(compainerName);
+
+    QuerySnapshot complainSnapshot = await userComplain.get();
+
+    if (complainSnapshot.docs.isNotEmpty) {
+      return complainSnapshot.docs;
+    }
+    return [];
+  }
+
+  void deleteComplain(String id) {
+    firestore
+        .collection("complain")
+        .doc(complainid)
+        .collection(compainerName)
+        .doc(id)
+        .delete();
   }
 
   Future<Widget> fetchWholeData() async {
