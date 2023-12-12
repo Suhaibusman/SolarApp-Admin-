@@ -9,6 +9,7 @@ import 'package:solar_admin/utils/widgets/custom_button.dart';
 import 'package:solar_admin/utils/widgets/custom_textfield.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 
+// ignore: must_be_immutable
 class ChangePasswordView extends StatelessWidget {
   ChangePasswordView({super.key});
 

@@ -15,13 +15,21 @@ class HomeController extends GetxController {
   RxInt totalChats = 0.obs;
   RxInt totalComplain = 0.obs;
   RxInt totalMaintainance = 0.obs;
+
+  final updateCount = 0.obs; // Observable variable to trigger updates
+
+  // Function to simulate an update
+
   @override
   void onInit() {
     super.onInit();
-    countOfUser();
-    countOfChats();
-    countOfmaintainance();
-    countOfComplain();
+    ever(updateCount, (_) {
+      // This block will be executed whenever updateCount changes
+      countOfUser();
+      countOfChats();
+      countOfmaintainance();
+      countOfComplain();
+    });
   }
 
   // ... rest of the code ...
@@ -31,8 +39,8 @@ class HomeController extends GetxController {
     IconsConstants.botIcon,
     IconsConstants.complaintIcon,
     IconsConstants.calenderIcon,
-    IconsConstants.contactusIcon,
-    IconsConstants.passwordIcon,
+    // IconsConstants.contactusIcon,
+    // IconsConstants.passwordIcon,
   ];
 
   List pagesView = [
@@ -41,16 +49,16 @@ class HomeController extends GetxController {
     const ComplaintsView(),
     // UserComplainView(),
     MaintainanceView(),
-    SupportView(),
-    ChangePasswordView()
+    // SupportView(),
+    // ChangePasswordView()
   ];
   List get gridTextList => [
         "totalUser = $totalUser", // Access totalUser without .value during initialization
         "totalChats =$totalChats", // Access totalChats without .value during initialization
         "Complaint = $totalComplain", // Access totalMaintainance without .value during initialization
         "Maintainance = $totalMaintainance",
-        "Contact Us",
-        "Change Password"
+        // "Contact Us",
+        // "Change Password"
       ];
 
   // ... rest of the code ...
@@ -106,7 +114,7 @@ class HomeController extends GetxController {
       (QuerySnapshot querySnapshot) {
         if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
           totalMaintainance.value = querySnapshot.docs.length;
-          print("Total Users: $totalMaintainance");
+          print("Total Maintenance: $totalMaintainance");
         } else {
           totalMaintainance.value = 0;
           print("No users found.");

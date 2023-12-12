@@ -6,6 +6,7 @@ import 'package:solar_admin/utils/themes/color_theme.dart';
 import 'package:solar_admin/utils/widgets/custom_button.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MaintainanceController extends GetxController {
   RxList<DateTime> selectedDates = <DateTime>[].obs;
@@ -92,6 +93,16 @@ class MaintainanceController extends GetxController {
 //   }
 // }
 
+  void openMail({email}) async {
+    try {
+      String gmailUrl =
+          'mailto:$email?subject=Regarding Maintainance&body=Your Maintainance is Approved';
+      await launch(gmailUrl);
+    } catch (e) {
+      print('Error launching Gmail: $e');
+    }
+  }
+
   Future<Widget> fetchMaintenanceReport() async {
     return StreamBuilder<QuerySnapshot>(
       stream: firestore.collection("maintainance").snapshots(),
@@ -154,17 +165,40 @@ class MaintainanceController extends GetxController {
                         const SizedBox(
                           width: 10,
                         ),
-                        CustomButton(
-                            borderRadius: BorderRadius.circular(15),
-                            height: 43,
-                            mywidth: 1,
-                            onPressed: () {},
-                            child: 'Approve and Mail',
-                            gradientColors: [
-                              btnPrimaryColor,
-                              btnSecondaryColor
-                            ],
-                            color: btnSecondaryColor),
+                        doc["progress"] == "pending"
+                            ? CustomButton(
+                                borderRadius: BorderRadius.circular(15),
+                                height: 43,
+                                mywidth: 1,
+                                onPressed: () {
+                                  try {
+                                    firestore
+                                        .collection("maintainance")
+                                        .doc(doc.id)
+                                        .update({"progress": "Approved"}).then(
+                                            (value) => openMail(
+                                                email: doc["emailAddress"]));
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                },
+                                child: 'Approve and Mail',
+                                gradientColors: [
+                                  btnPrimaryColor,
+                                  btnSecondaryColor
+                                ],
+                                color: btnSecondaryColor)
+                            : CustomButton(
+                                borderRadius: BorderRadius.circular(15),
+                                height: 43,
+                                mywidth: 1,
+                                onPressed: () {},
+                                child: 'Approved',
+                                gradientColors: [
+                                  btnPrimaryColor,
+                                  btnSecondaryColor
+                                ],
+                                color: btnSecondaryColor),
                       ],
                     ),
                   ),

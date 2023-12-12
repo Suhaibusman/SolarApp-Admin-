@@ -27,16 +27,14 @@ class ComplaintController extends GetxController {
 
     return CalendarDatePicker2(
       config: config,
+      // ignore: unnecessary_null_comparison
       value: selectedDates.where((date) => date != null).toList(),
       onValueChanged: (dates) {},
     );
   }
 
   Future<List<DocumentSnapshot>> getComplains() async {
-    CollectionReference userComplain = firestore
-        .collection("complain")
-        .doc(complainid)
-        .collection(compainerName);
+    CollectionReference userComplain = firestore.collection("complain");
 
     QuerySnapshot complainSnapshot = await userComplain.get();
 
@@ -47,17 +45,12 @@ class ComplaintController extends GetxController {
   }
 
   void deleteComplain(String id) {
-    firestore
-        .collection("complain")
-        .doc(complainid)
-        .collection(compainerName)
-        .doc(id)
-        .delete();
+    firestore.collection("complain").doc(id).delete();
   }
 
   Future<Widget> fetchWholeData() async {
     return StreamBuilder<QuerySnapshot>(
-      stream: firestore.collection("complain").get().asStream(),
+      stream: firestore.collection("complain").snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasData && snapshot.data != null) {
