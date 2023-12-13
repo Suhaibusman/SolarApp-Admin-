@@ -2,39 +2,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:solar_admin/view/nav_bar/chat_view/all_chats.dart';
+import 'package:solar_admin/view/nav_bar/chat_view/chat_view.dart';
 
 class ChatController extends GetxController {
   TextEditingController msgController = TextEditingController();
   RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
+  RxMap<String, dynamic> selectedUserData = <String, dynamic>{}.obs;
   String formattedTime = "";
   RxBool isOptionButtonVisible = true.obs;
   bool chatActive = true;
   bool isEnterAddress = false;
   final greetings = ["hi", "hello", "hey"];
 
-  String currentUid = "hAwbHpKf1lZkVHJBcGvgFrq1sjw1";
+  String currentUid = "";
+  String currentUsername = "";
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  @override
-  void onInit() {
-    super.onInit();
+  // @override
+  // void onInit() {
+  //   super.onInit();
 
-    firestore
-        .collection("chats")
-        .doc(currentUid)
-        .collection("messages")
-        .orderBy('currenttime')
-        .snapshots()
-        .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
-      messages.assignAll(snapshot.docs.map((doc) {
-        return {
-          'message': doc['message'] ?? '',
-          'isSent': doc['isSent'] ?? false,
-          'currenttime': doc['currenttime'] ?? '',
-        };
-      }).toList());
-    });
-  }
+  //   firestore
+  //       .collection("users")
+  //       .doc(selectedUserData['uid'])
+  //       .collection(selectedUserData['username'])
+  //       .orderBy('currenttime')
+  //       .snapshots()
+  //       .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
+  //     messages.assignAll(snapshot.docs.map((doc) {
+  //       return {
+  //         'message': doc['message'] ?? '',
+  //         'isSent': doc['isSent'] ?? false,
+  //         'currenttime': doc['currenttime'] ?? '',
+  //       };
+  //     }).toList());
+  //   });
+  // }
 
   String getCurrentTime() {
     final DateTime now = DateTime.now();
@@ -56,18 +60,6 @@ class ChatController extends GetxController {
     });
   }
 
-  Future<void> getResponse({message}) async {
-    await firestore
-        .collection("chats")
-        .doc(currentUid)
-        .collection("messages") // Create a sub-collection for messages
-        .add({
-      'message': message,
-      'isSent': true,
-      'currenttime': getCurrentTime(),
-    });
-  }
-
   Future<void> handleUserInput() async {
     if (msgController.text.isEmpty) {
       Get.snackbar("Undefined", "Please enter your complaint");
@@ -79,115 +71,12 @@ class ChatController extends GetxController {
     }
   }
 
-  greetingMessage() async {
-    Future.delayed(
-      const Duration(seconds: 2),
-      () async {
-        await getResponse(
-            message: "Welcome to our Solar Power Company! How can I help you?");
-        await getResponse(
-            message:
-                "I can help you find out ⚡How You Can Save With Solar Energy⚡");
-        await getResponse(
-            message:
-                "Let me ask you a few questions to see if you qualify for the free eligibility review type sure.");
-      },
-    );
-  }
-
-  void chatBot() async {
-    if (greetings.contains(msgController.text.toLowerCase())) {
-      await sendMessage(message: msgController.text);
-      await greetingMessage();
-    } else {
-      if (msgController.text == "sure") {
-        await sendMessage(message: msgController.text);
-        await getResponse(message: "Great! Then, here is my first question");
-        generateAutoReply("1");
-      } else if (msgController.text == "yes") {
-        await sendMessage(message: msgController.text);
-        await getResponse(
-            message:
-                "Please type your address including city, state, and country");
-      } else if (msgController.text == "no") {
-        await sendMessage(message: msgController.text);
-        await getResponse(message: "I think you are not interested.");
-      } else {
-        await sendMessage(message: msgController.text);
-        generateAutoReply("2");
-      }
-    }
-  }
-
-  questions() {
-    Future.delayed(const Duration(seconds: 2), () async {
-      await getResponse(message: "Is Your Home Shaded? (Yes/No)");
-    });
-
-    if (msgController.text.toLowerCase() == "yes") {
-      sendMessage(message: msgController.text);
-      Future.delayed(const Duration(seconds: 2), () async {
-        getResponse(
-            message:
-                "Please type your address including city, state, and country.");
-      });
-
-      isEnterAddress = true;
-      while (isEnterAddress) {
-        sendMessage(message: msgController.text);
-        getResponse(message: "Our Company Will Call You.");
-        isEnterAddress = false;
-      }
-    } else {
-      if (msgController.text == "no") {
-        sendMessage(message: msgController.text);
-        getResponse(
-            message:
-                "I Think You Need To Contact our company so after survey they tell u are you eligible for solar or not.");
-      }
-    }
-  }
-
-  generateAutoReply(String input) async {
-    switch (input) {
-      case '1':
-        return {questions()};
-      case '2':
-        return {
-          Future.delayed(
-            const Duration(seconds: 2),
-            () async {
-              await getResponse(
-                  message:
-                      "I need more information to understand your interest. Can you please clarify?");
-            },
-          )
-        };
-      case '3':
-        return {
-          await getResponse(
-              message:
-                  "Let me ask you a few questions to see if you qualify for the free eligibility review.")
-        };
-      case '4':
-        return 'I am a chatbot that can help you with your questions.';
-      default:
-        return 'I am sorry, I didnt understand. Can you please clarify?';
-    }
-  }
-
-  optionButton({required String text, required Function() onPressed}) {
-    TextButton(
-      onPressed: () {
-        onPressed();
-      },
-      child: Text(text),
-    );
-  }
-
-  Future<List<DocumentSnapshot>> getChats() async {
+  Future<List<DocumentSnapshot>> getChats({
+    required String name,
+    required String uid,
+  }) async {
     CollectionReference userChats =
-        firestore.collection("chats").doc(currentUid).collection("messages");
+        firestore.collection("users").doc(uid).collection(name);
     QuerySnapshot userChatSnapshot = await userChats.get();
 
     if (userChatSnapshot.docs.isNotEmpty) {
@@ -211,25 +100,29 @@ class ChatController extends GetxController {
                 DocumentSnapshot doc = snapshot.data!.docs[index];
                 //querysnaphot me pora data ayegaa
                 String imagePath = doc["profileImage"];
-                return ListTile(
-                  leading: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                      imagePath == ""
-                          ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
-                          : imagePath,
-                    ),
-                  ),
-                  title: Row(
-                    children: [
-                      Text(doc["username"] ?? "No Name"),
-                      const SizedBox(
-                        width: 10,
+                return InkWell(
+                  onTap: () {
+                    selectedUserData.assignAll({
+                      'uid': doc["uid"],
+                      'username': doc["username"],
+                    });
+                    Get.to(() => ChatScreen(
+                          uid: doc["uid"],
+                          username: doc["username"],
+                          image: doc["profileImage"],
+                        ));
+                  },
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(
+                        imagePath == ""
+                            ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
+                            : imagePath,
                       ),
-                      Text(doc["phoneNumber"] ?? "No Phone Number"),
-                    ],
+                    ),
+                    title: Text(doc["username"]),
                   ),
-                  subtitle: Text(doc["emailAddress"] ?? "No Email"),
                 );
               },
             );

@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/view/nav_bar/chat_view/all_chats.dart';
-import 'package:solar_admin/view/nav_bar/chat_view/chat_view.dart';
 import 'package:solar_admin/view/nav_bar/complaint_details/coplaints_view.dart';
 import 'package:solar_admin/view/nav_bar/maintainance/maintainance_view.dart';
 import 'package:solar_admin/view/nav_bar/user/user_view.dart';

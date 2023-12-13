@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,10 +12,44 @@ import 'package:solar_admin/utils/themes/color_theme.dart';
 import 'package:solar_admin/utils/widgets/helper_widget.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 
-class ChatScreen extends StatelessWidget {
-  final ChatController chatController = Get.find<ChatController>();
+class ChatScreen extends StatefulWidget {
+  final String uid;
+  final String username;
+  final String image;
 
-  ChatScreen({super.key});
+  ChatScreen(
+      {super.key,
+      required this.uid,
+      required this.username,
+      required this.image});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.uid)
+        .collection(widget.username)
+        .orderBy('currenttime')
+        .snapshots()
+        .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      chatController.messages.assignAll(snapshot.docs.map((doc) {
+        return {
+          'message': doc['message'] ?? '',
+          'isSent': doc['isSent'] ?? false,
+          'currenttime': doc['currenttime'] ?? '',
+        };
+      }).toList());
+    });
+  }
+
+  final ChatController chatController = Get.find<ChatController>();
 
   @override
   Widget build(BuildContext context) {
