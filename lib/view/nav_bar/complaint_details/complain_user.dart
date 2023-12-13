@@ -8,7 +8,22 @@ import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 // ignore: must_be_immutable
 class UserComplainView extends StatelessWidget {
-  UserComplainView({super.key});
+  String complainNumber;
+  String complainerTitle;
+  //  String complainerEmail;
+  //  String complainerPhone;
+  //  String complainerAddress;
+  String complainImage;
+  String complainDescription;
+  String complainStatus;
+
+  UserComplainView(
+      {super.key,
+      required this.complainNumber,
+      required this.complainerTitle,
+      required this.complainImage,
+      required this.complainDescription,
+      required this.complainStatus});
 
   ComplaintController complaintController = Get.put(ComplaintController());
 
@@ -38,7 +53,7 @@ class UserComplainView extends StatelessWidget {
                   ),
                 ),
                 title: ctext(
-                  text: 'Users',
+                  text: 'Complaint Details',
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: white,
@@ -46,34 +61,33 @@ class UserComplainView extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
               ).paddingOnly(top: 10, bottom: 10),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                    ),
-                  ),
-                  child: FutureBuilder<Widget>(
-                    future: complaintController.fetchWholeData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasData) {
-                          return snapshot.data!;
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text("Error: ${snapshot.error}"),
-                          );
-                        } else {
-                          return const Center(child: Text("No User Found"));
-                        }
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    },
-                  ),
-                ),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(complainImage),
+              ),
+              ctext(
+                text: "Complaint Title: $complainerTitle",
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: white,
+              ),
+              ctext(
+                text: "Complaint Description: $complainDescription",
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: white,
+              ),
+              ctext(
+                text: "Complaint Status: $complainStatus",
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: white,
+              ),
+              ctext(
+                text: 'Complaint Number : $complainNumber',
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: white,
               ),
             ],
           ),

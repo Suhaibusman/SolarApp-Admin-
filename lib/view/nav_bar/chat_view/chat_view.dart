@@ -12,7 +12,7 @@ import 'package:solar_admin/utils/widgets/helper_widget.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 class ChatScreen extends StatelessWidget {
-  final ChatController chatController = Get.put(ChatController());
+  final ChatController chatController = Get.find<ChatController>();
 
   ChatScreen({super.key});
 

@@ -47,48 +47,4 @@ class ComplaintController extends GetxController {
   void deleteComplain(String id) {
     firestore.collection("complain").doc(id).delete();
   }
-
-  Future<Widget> fetchWholeData() async {
-    return StreamBuilder<QuerySnapshot>(
-      stream: firestore.collection("complain").snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          if (snapshot.hasData && snapshot.data != null) {
-            return ListView.separated(
-              separatorBuilder: (context, index) => const Divider(),
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                DocumentSnapshot doc = snapshot.data!.docs[index];
-                //querysnaphot me pora data ayegaa
-                String imagePath = doc["profileImage"];
-                return ListTile(
-                  leading: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                      imagePath == ""
-                          ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
-                          : imagePath,
-                    ),
-                  ),
-                  title: Row(
-                    children: [
-                      Text(doc["username"] ?? "No Name"),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(doc["phoneNumber"] ?? "No Phone Number"),
-                    ],
-                  ),
-                  subtitle: Text(doc["emailAddress"] ?? "No Email"),
-                );
-              },
-            );
-          } else {
-            return const Center(child: Text("No Data Found"));
-          }
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
-  }
 }

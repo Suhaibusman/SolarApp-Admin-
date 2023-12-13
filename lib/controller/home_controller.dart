@@ -3,33 +3,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
-import 'package:solar_admin/view/nav_bar/change_password/change_password_view.dart';
+import 'package:solar_admin/view/nav_bar/chat_view/all_chats.dart';
 import 'package:solar_admin/view/nav_bar/chat_view/chat_view.dart';
 import 'package:solar_admin/view/nav_bar/complaint_details/coplaints_view.dart';
 import 'package:solar_admin/view/nav_bar/maintainance/maintainance_view.dart';
 import 'package:solar_admin/view/nav_bar/user/user_view.dart';
-import 'package:solar_admin/view/nav_bar/support/support_view.dart';
 
 class HomeController extends GetxController {
   RxInt totalUser = 0.obs;
   RxInt totalChats = 0.obs;
   RxInt totalComplain = 0.obs;
   RxInt totalMaintainance = 0.obs;
-
-  final updateCount = 0.obs; // Observable variable to trigger updates
-
-  // Function to simulate an update
-
   @override
   void onInit() {
     super.onInit();
-    ever(updateCount, (_) {
-      // This block will be executed whenever updateCount changes
-      countOfUser();
-      countOfChats();
-      countOfmaintainance();
-      countOfComplain();
-    });
+    countOfUser();
+    countOfChats();
+    countOfmaintainance();
+    countOfComplain();
   }
 
   // ... rest of the code ...
@@ -45,7 +36,7 @@ class HomeController extends GetxController {
 
   List pagesView = [
     UserView(),
-    ChatScreen(),
+    ChatUser(),
     const ComplaintsView(),
     // UserComplainView(),
     MaintainanceView(),
