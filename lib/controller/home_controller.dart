@@ -10,14 +10,13 @@ import 'package:solar_admin/view/nav_bar/user/user_view.dart';
 
 class HomeController extends GetxController {
   RxInt totalUser = 0.obs;
-  RxInt totalChats = 0.obs;
+
   RxInt totalComplain = 0.obs;
   RxInt totalMaintainance = 0.obs;
   @override
   void onInit() {
     super.onInit();
     countOfUser();
-    countOfChats();
     countOfmaintainance();
     countOfComplain();
   }
@@ -44,7 +43,7 @@ class HomeController extends GetxController {
   ];
   List get gridTextList => [
         "totalUser = $totalUser", // Access totalUser without .value during initialization
-        "totalChats =$totalChats", // Access totalChats without .value during initialization
+        "totalChats", // Access totalChats without .value during initialization
         "Complaint = $totalComplain", // Access totalMaintainance without .value during initialization
         "Maintainance = $totalMaintainance",
         // "Contact Us",
@@ -58,14 +57,11 @@ class HomeController extends GetxController {
       (QuerySnapshot querySnapshot) {
         if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
           totalUser.value = querySnapshot.docs.length;
-          print("Total Users: $totalUser");
         } else {
           totalUser.value = 0;
-          print("No users found.");
         }
       },
     ).catchError((error) {
-      print("Error fetching user count: $error");
       // Handle the error as needed
     });
   }
@@ -77,13 +73,10 @@ class HomeController extends GetxController {
 
       // Extract and print the count value from the QuerySnapshot
       int count = querySnapshot.size;
-      print("Count of complaints: $count");
 
       // Update the totalComplain value
       totalComplain.value = count;
-    } catch (e) {
-      print("Error fetching count of complaints: $e");
-    }
+    } catch (e) {}
   }
 
   // Future countOfComplain() async {
@@ -104,32 +97,11 @@ class HomeController extends GetxController {
       (QuerySnapshot querySnapshot) {
         if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
           totalMaintainance.value = querySnapshot.docs.length;
-          print("Total Maintenance: $totalMaintainance");
         } else {
           totalMaintainance.value = 0;
-          print("No users found.");
         }
       },
     ).catchError((error) {
-      print("Error fetching user count: $error");
-      // Handle the error as needed
-    });
-  }
-
-  void countOfChats() {
-    print(FirebaseFirestore.instance.collection('chats').id);
-    FirebaseFirestore.instance.collection('chats').get().then(
-      (QuerySnapshot querySnapshot) {
-        if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
-          totalChats.value = querySnapshot.docs.length;
-          print("Total Chats: $totalChats"); // Corrected the print statement
-        } else {
-          totalChats.value = 0;
-          print("No chats found.");
-        }
-      },
-    ).catchError((error) {
-      print("Error fetching chat count: $error");
       // Handle the error as needed
     });
   }

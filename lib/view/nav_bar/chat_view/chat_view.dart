@@ -152,9 +152,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      const CircleAvatar(
+                                      CircleAvatar(
                                         backgroundImage: NetworkImage(
-                                          "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                          widget.image,
                                         ),
                                       ).paddingOnly(bottom: 15),
                                       Column(

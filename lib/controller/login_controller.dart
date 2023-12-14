@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_admin/data.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/widgets/nav_bar.dart';
 
@@ -16,11 +17,14 @@ class LoginController extends GetxController {
       Get.snackbar("Error", "Please Enter Email and Password");
     } else {
       if (email == "khadeeja@gmail.com" && password == "123456") {
-        Get.to(MyBottomNavbar());
+        box.write("isLogin", true);
+        Get.offAll(() => MyBottomNavbar());
+      } else if (email == "iqra@gmail.com" && password == "123456") {
+        box.write("isLogin", true);
+        Get.offAll(() => MyBottomNavbar());
       } else if (email == "test@gmail.com" && password == "123456") {
-        Get.to(MyBottomNavbar());
-      } else if (email == "khadeeja@gmail.com" && password == "123456") {
-        Get.to(MyBottomNavbar());
+        box.write("isLogin", true);
+        Get.offAll(() => MyBottomNavbar());
       } else {
         Get.snackbar("Error", "Invalid Email or Password");
       }

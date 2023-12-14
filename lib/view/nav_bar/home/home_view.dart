@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:solar_admin/controller/home_controller.dart';
+import 'package:solar_admin/data.dart';
 import 'package:solar_admin/utils/constants/app_constant.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
 import 'package:solar_admin/utils/widgets/helper_widget.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
+import 'package:solar_admin/view/splash/splash_view.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -36,12 +38,19 @@ class HomeView extends StatelessWidget {
               ),
             ),
             smallSpaceh,
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: btnPrimaryColor,
-              child: Icon(
-                Icons.exit_to_app,
-                color: white,
+            InkWell(
+              onTap: () {
+                box.write("isLogin", false);
+                box.erase();
+                Get.offAll(const SplashScreen());
+              },
+              child: CircleAvatar(
+                radius: 18,
+                backgroundColor: btnPrimaryColor,
+                child: Icon(
+                  Icons.exit_to_app,
+                  color: white,
+                ),
               ),
             ),
             smallSpaceh,

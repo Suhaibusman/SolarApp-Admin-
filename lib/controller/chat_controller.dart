@@ -111,7 +111,9 @@ class ChatController extends GetxController {
                     Get.to(() => ChatScreen(
                           uid: doc["uid"],
                           username: doc["username"],
-                          image: doc["profileImage"],
+                          image: imagePath == ""
+                              ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
+                              : doc["profileImage"],
                         ));
                   },
                   child: ListTile(

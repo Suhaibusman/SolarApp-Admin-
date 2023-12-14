@@ -9,7 +9,6 @@ import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
 import 'package:solar_admin/utils/widgets/custom_button.dart';
 import 'package:solar_admin/utils/widgets/custom_textfield.dart';
-import 'package:solar_admin/utils/widgets/nav_bar.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 class LoginView extends StatelessWidget {
@@ -126,8 +125,8 @@ class LoginView extends StatelessWidget {
                           height: 43,
                           mywidth: 1,
                           onPressed: () {
-                            Get.to(MyBottomNavbar());
-                            // loginController.login();
+                            // Get.to(MyBottomNavbar());
+                            loginController.login();
                           },
                           child: 'Sign in',
                           gradientColors: [
