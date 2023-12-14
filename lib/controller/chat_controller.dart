@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:solar_admin/view/nav_bar/chat_view/all_chats.dart';
 import 'package:solar_admin/view/nav_bar/chat_view/chat_view.dart';
 
 class ChatController extends GetxController {
@@ -23,21 +22,21 @@ class ChatController extends GetxController {
   // void onInit() {
   //   super.onInit();
 
-  //   firestore
-  //       .collection("users")
-  //       .doc(selectedUserData['uid'])
-  //       .collection(selectedUserData['username'])
-  //       .orderBy('currenttime')
-  //       .snapshots()
-  //       .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
-  //     messages.assignAll(snapshot.docs.map((doc) {
-  //       return {
-  //         'message': doc['message'] ?? '',
-  //         'isSent': doc['isSent'] ?? false,
-  //         'currenttime': doc['currenttime'] ?? '',
-  //       };
-  //     }).toList());
-  //   });
+  // firestore
+  //     .collection("users")
+  //     .doc(selectedUserData['uid'])
+  //     .collection(selectedUserData['username'])
+  //     .orderBy('currenttime')
+  //     .snapshots()
+  //     .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
+  //   messages.assignAll(snapshot.docs.map((doc) {
+  //     return {
+  //       'message': doc['message'] ?? '',
+  //       'isSent': doc['isSent'] ?? false,
+  //       'currenttime': doc['currenttime'] ?? '',
+  //     };
+  //   }).toList());
+  // });
   // }
 
   String getCurrentTime() {
@@ -48,11 +47,12 @@ class ChatController extends GetxController {
     return formattedTime;
   }
 
-  Future<void> sendMessage({message}) async {
+  Future<void> sendMessage(
+      {message, required String currentid, required String currentName}) async {
     await firestore
-        .collection("chats")
-        .doc(currentUid)
-        .collection("messages") // Create a sub-collection for messages
+        .collection("users")
+        .doc(currentid)
+        .collection(currentName) // Create a sub-collection for messages
         .add({
       'message': message,
       'isSent': false,
@@ -60,13 +60,15 @@ class ChatController extends GetxController {
     });
   }
 
-  Future<void> handleUserInput() async {
+  Future<void> handleUserInput(
+      {required String currentid, required String currentName}) async {
     if (msgController.text.isEmpty) {
       Get.snackbar("Undefined", "Please enter your complaint");
     } else {
-      await sendMessage(message: msgController.text);
-      // copyChats();
-      // chatBot();
+      await sendMessage(
+          message: msgController.text,
+          currentName: currentName,
+          currentid: currentid);
       msgController.clear();
     }
   }

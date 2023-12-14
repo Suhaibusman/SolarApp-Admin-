@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:solar_admin/utils/widgets/custom_button.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 import 'package:solar_admin/controller/complaint_controller.dart';
 import 'package:solar_admin/utils/constants/app_constant.dart';
@@ -41,6 +42,7 @@ class ComplaintsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ComplaintController complainController = Get.put(ComplaintController());
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     return Scaffold(
       backgroundColor: primarycolor,
@@ -121,11 +123,6 @@ class ComplaintsView extends StatelessWidget {
                               Icon(Icons.calendar_month_outlined,
                                   size: 14, color: Colors.grey.withOpacity(.6)),
                               yourFunction(doc)
-                              // ctext(
-                              //     text: DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime),
-                              //     fontWeight: FontWeight.bold,
-                              //     fontSize: 11,
-                              //     color: Colors.grey.withOpacity(.6)),
                             ],
                           ),
                           extraSmallSpace,
@@ -155,24 +152,45 @@ class ComplaintsView extends StatelessWidget {
                                   fontSize: 11,
                                   color: btnPrimaryColor),
                               const Spacer(),
-                              // RatingBar.builder(
-                              //   itemSize: 16,
-                              //   initialRating: double.parse(doc["rating"]),
-                              //   minRating: 1,
-                              //   direction: Axis.horizontal,
-                              //   allowHalfRating: true,
-                              //   itemCount: 5,
-                              //   itemPadding:
-                              //       const EdgeInsets.symmetric(horizontal: 0.2),
-                              //   itemBuilder: (context, _) => const Icon(
-                              //     Icons.star,
-                              //     color: Colors.amber,
-                              //     size: 13,
-                              //   ),
-                              //   onRatingUpdate: (rating) {},
-                              // ),
                             ],
-                          )
+                          ),
+                          extraSmallSpace,
+                          doc["progress"] == "pending"
+                              ? CustomButton(
+                                  borderRadius: BorderRadius.circular(15),
+                                  height: 43,
+                                  mywidth: 1,
+                                  onPressed: () {
+                                    try {
+                                      firestore
+                                          .collection("complain")
+                                          .doc(doc.id)
+                                          .update({
+                                        "progress": "Approved"
+                                      }).then((value) =>
+                                              complainController.openMail(
+                                                  email: doc["emailAddress"]));
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                  },
+                                  child: 'Approve and Mail',
+                                  gradientColors: [
+                                    btnPrimaryColor,
+                                    btnSecondaryColor
+                                  ],
+                                  color: btnSecondaryColor)
+                              : CustomButton(
+                                  borderRadius: BorderRadius.circular(15),
+                                  height: 43,
+                                  mywidth: 1,
+                                  onPressed: () {},
+                                  child: 'Approved',
+                                  gradientColors: [
+                                    btnPrimaryColor,
+                                    btnSecondaryColor
+                                  ],
+                                  color: btnSecondaryColor),
                         ],
                       ).paddingOnly(left: 12, top: 12, bottom: 12, right: 12),
                     ),

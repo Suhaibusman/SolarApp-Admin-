@@ -82,149 +82,126 @@ class _ChatScreenState extends State<ChatScreen> {
                         height: Get.height * 0.2)),
                 smallSpace,
                 Expanded(
-                  child: Obx(
-                    () => ListView.builder(
-                      itemCount: chatController.messages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final message =
-                            chatController.messages[index]['message'];
-                        final isSent = chatController.messages[index]['isSent'];
-                        final currentTime =
-                            chatController.messages[index]['currenttime'];
-                        return Container(
-                          margin: const EdgeInsets.all(10),
-                          child: isSent == false
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipPath(
-                                          clipper: LowerNipMessageClipper(
-                                              MessageType.send),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 12,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: lightPrimaryTextColor,
-                                            ),
-                                            child: LayoutBuilder(
-                                              builder: (context, constraints) {
-                                                double maxWidth = Get.width *
-                                                    0.4; // Set the maximum width to 50% of the screen width
-                                                double width =
-                                                    constraints.maxWidth <
-                                                            maxWidth
-                                                        ? constraints.maxWidth
-                                                        : maxWidth;
+                  child: Obx(() => // Inside your ListView.builder
+                      ListView.builder(
+                        itemCount: chatController.messages.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final message =
+                              chatController.messages[index]['message'];
+                          final isSent =
+                              chatController.messages[index]['isSent'];
+                          final currentTime =
+                              chatController.messages[index]['currenttime'];
 
-                                                return SizedBox(
-                                                  width: width,
-                                                  child: Flexible(
-                                                    child: ctext(
-                                                      maxLines: 6,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      text: message.toString(),
-                                                      fontSize: 12,
-                                                      color: white,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
+                          return Container(
+                            margin: const EdgeInsets.all(10),
+                            child: isSent == false
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ClipPath(
+                                            clipper: LowerNipMessageClipper(
+                                                MessageType.send),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 12,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: lightPrimaryTextColor,
+                                              ),
+                                              constraints: BoxConstraints(
+                                                maxWidth: Get.width *
+                                                    0.6, // Set the maximum width here
+                                              ),
+                                              child: Text(
+                                                message.toString(),
+                                                maxLines: 6,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: white,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        ctext(
-                                          text: currentTime.toString(),
-                                          fontSize: 10,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ],
-                                    ),
-                                    mediumSpaceh,
-                                    const CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                          ctext(
+                                            text: currentTime.toString(),
+                                            fontSize: 10,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ],
                                       ),
-                                    ).paddingOnly(top: 15),
-                                  ],
-                                )
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
-                                      ),
-                                    ).paddingOnly(bottom: 15),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipPath(
-                                          clipper: LowerNipMessageClipper(
-                                              MessageType.receive),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 12,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: lightPrimaryTextColor,
-                                            ),
-                                            child: LayoutBuilder(
-                                              builder: (context, constraints) {
-                                                double maxWidth = Get.width *
-                                                    0.5; // Set the maximum width to 50% of the screen width
-                                                double width =
-                                                    constraints.maxWidth <
-                                                            maxWidth
-                                                        ? constraints.maxWidth
-                                                        : maxWidth;
-
-                                                return SizedBox(
-                                                  width: width,
-                                                  child: Flexible(
-                                                    child: ctext(
-                                                      maxLines: 6,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      text: message.toString(),
-                                                      fontSize: 12,
-                                                      color: white,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
+                                      mediumSpaceh,
+                                      const CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                        ),
+                                      ).paddingOnly(top: 15),
+                                    ],
+                                  )
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                        ),
+                                      ).paddingOnly(bottom: 15),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ClipPath(
+                                            clipper: LowerNipMessageClipper(
+                                                MessageType.receive),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 12,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: lightPrimaryTextColor,
+                                              ),
+                                              constraints: BoxConstraints(
+                                                maxWidth: Get.width *
+                                                    0.6, // Set the maximum width here
+                                              ),
+                                              child: Text(
+                                                message.toString(),
+                                                maxLines: 6,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: white,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        ctext(
-                                          text: currentTime.toString(),
-                                          fontSize: 10,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                        );
-                      },
-                    ),
-                  ),
+                                          ctext(
+                                            text: currentTime.toString(),
+                                            fontSize: 10,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                          );
+                        },
+                      )),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -251,11 +228,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // print("Messages: ${chatController.messages}");
-                          //   chatController.getChats();
-                          // chatController.chatBot();
-                          chatController.handleUserInput();
-                          chatController.msgController.clear();
+                          chatController.handleUserInput(
+                              currentid: widget.uid,
+                              currentName: widget.username);
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),
