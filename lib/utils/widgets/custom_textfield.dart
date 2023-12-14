@@ -83,6 +83,7 @@ class CustomUnderLineTextField extends StatelessWidget {
 
 class CustomBorderTextField extends StatefulWidget {
   final String hint;
+  final bool obscureText;
   final List<TextInputFormatter>? inputFormatters;
   final IconData? suffix;
   final bool? isreadOnly;
@@ -109,6 +110,7 @@ class CustomBorderTextField extends StatefulWidget {
     this.valid,
     this.onchanged,
     this.maxLines,
+    required this.obscureText,
   }) : super(key: key);
 
   @override
@@ -137,7 +139,8 @@ class _FieldTextState extends State<CustomBorderTextField> {
         ),
       ),
       child: TextFormField(
-        maxLines: widget.maxLines,
+        obscureText: widget.obscureText,
+        maxLines: widget.maxLines ?? 1,
         inputFormatters: widget.inputFormatters,
         onChanged: widget.onchanged,
         focusNode: widget.focusNode,

@@ -84,6 +84,7 @@ class LoginView extends StatelessWidget {
                           fontSize: 13,
                         ),
                         CustomBorderTextField(
+                          obscureText: false,
                           controller: loginController.emailController,
                           hint: 'Email',
                           prefix: Icon(
@@ -106,6 +107,7 @@ class LoginView extends StatelessWidget {
                           fontSize: 13,
                         ),
                         CustomBorderTextField(
+                          obscureText: true,
                           controller: loginController.passwordController,
                           hint: 'Password',
                           prefix: Icon(
