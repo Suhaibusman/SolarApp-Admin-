@@ -61,8 +61,8 @@ class ComplaintsView extends StatelessWidget {
             color: white),
         backgroundColor: Colors.transparent,
       ),
-      body: FutureBuilder<List<DocumentSnapshot>>(
-          future: complainController.getComplains(),
+      body: StreamBuilder<List<DocumentSnapshot>>(
+          stream: complainController.getComplainsStream(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -169,6 +169,7 @@ class ComplaintsView extends StatelessWidget {
                                         "progress": "Approved"
                                       }).then((value) =>
                                               complainController.openMail(
+                                                  cmpid: doc["complaintNumber"],
                                                   email: doc["emailAddress"]));
                                     } catch (e) {
                                       print(e);

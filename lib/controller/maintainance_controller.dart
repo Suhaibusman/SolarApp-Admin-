@@ -141,20 +141,34 @@ class MaintainanceController extends GetxController {
                           text: doc["issue"] ?? "No Issue",
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
-                          color: Colors.red,
+                          color: btnSecondaryColor,
                         ),
-                        Text(doc["emailAddress"] ?? "No Email"),
+                        ctext(
+                          text: doc["emailAddress"] ?? "No Email",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
                         const SizedBox(
                           width: 10,
                         ),
                         // ignore: prefer_interpolation_to_compose_strings
                         Row(
                           children: [
-                            Text("\$" + doc["price"]),
+                            ctext(
+                              text: "\$" + doc["price"],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.red,
+                            ),
                             const SizedBox(
                               width: 10,
                             ),
-                            Text(doc["phoneNumber"] ?? "No Phone Number"),
+                            ctext(
+                              text: doc["phoneNumber"] ?? "No Phone Number",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: btnPrimaryColor,
+                            ),
                           ],
                         ),
                         const SizedBox(

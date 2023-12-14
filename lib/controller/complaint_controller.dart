@@ -34,25 +34,26 @@ class ComplaintController extends GetxController {
     );
   }
 
-  Future<List<DocumentSnapshot>> getComplains() async {
+  Stream<List<DocumentSnapshot>> getComplainsStream() {
     CollectionReference userComplain = firestore.collection("complain");
 
-    QuerySnapshot complainSnapshot = await userComplain.get();
-
-    if (complainSnapshot.docs.isNotEmpty) {
-      return complainSnapshot.docs;
-    }
-    return [];
+    return userComplain.snapshots().map((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs;
+      } else {
+        return [];
+      }
+    });
   }
 
   void deleteComplain(String id) {
     firestore.collection("complain").doc(id).delete();
   }
 
-  void openMail({email}) async {
+  void openMail({email, cmpid}) async {
     try {
       String gmailUrl =
-          'mailto:$email?subject=Regarding Maintainance&body=Your Maintainance is Approved';
+          'mailto:$email?subject=Regarding Complain&body=Your Complain $cmpid is Approved';
       await launch(gmailUrl);
     } catch (e) {
       print('Error launching Gmail: $e');
