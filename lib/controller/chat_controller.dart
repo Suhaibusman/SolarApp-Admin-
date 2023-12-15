@@ -126,6 +126,12 @@ class ChatController extends GetxController {
                       ),
                     ),
                     title: Text(doc["username"]),
+                    trailing: InkWell(
+                        onTap: () {
+                          deleteChats(
+                              userId: doc["uid"], username: doc["username"]);
+                        },
+                        child: const Icon(Icons.delete)),
                   ),
                 );
               },
@@ -137,5 +143,27 @@ class ChatController extends GetxController {
         return const Center(child: CircularProgressIndicator());
       },
     );
+  }
+
+  Future<void> deleteChats(
+      {required String userId, required String username}) async {
+    // Reference to the subcollection
+    CollectionReference subcollectionRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .collection(username);
+
+    try {
+      // Get all documents in the subcollection
+      QuerySnapshot querySnapshot = await subcollectionRef.get();
+
+      // Iterate through each document and delete it
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+    } catch (error) {
+      print("Error deleting documents: $error");
+      // Handle errors as needed
+    }
   }
 }

@@ -71,27 +71,6 @@ class MaintainanceController extends GetxController {
       );
     }
   }
-//   void sendEmail() async {
-//   String username = 'your_email@gmail.com'; // Your email address
-//   String password = 'your_password'; // Your email password
-//   final smtpServer = gmail(username, password);
-
-//   // Create a message
-//   final message = Message()
-//     ..from = Address(username, 'Your Name')
-//     ..recipients.add('recipient_email@example.com') // Recipient's email address
-//     ..subject = 'Test Email'
-//     ..text = 'This is a test email sent from Flutter.';
-
-//   try {
-//     final sendReport = await send(message, smtpServer);
-//     print('Message sent: ${sendReport.sent}');
-//   } on MailerException catch (e) {
-//     print('Message not sent. Error: $e');
-//   } on SocketException catch (e) {
-//     print('Message not sent. Error: $e');
-//   }
-// }
 
   void openMail({email}) async {
     try {
@@ -114,8 +93,7 @@ class MaintainanceController extends GetxController {
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshot.data!.docs[index];
-                //querysnaphot me pora data ayegaa
-                // String imagePath = doc["profileImage"];
+
                 return Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -137,11 +115,28 @@ class MaintainanceController extends GetxController {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ctext(
-                          text: doc["issue"] ?? "No Issue",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: btnSecondaryColor,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ctext(
+                              text: doc["issue"] ?? "No Issue",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: btnSecondaryColor,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                firestore
+                                    .collection("maintainance")
+                                    .doc(doc.id)
+                                    .delete();
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.grey.withOpacity(.6),
+                              ),
+                            ),
+                          ],
                         ),
                         ctext(
                           text: doc["emailAddress"] ?? "No Email",

@@ -16,13 +16,14 @@ class LoginController extends GetxController {
     if (email == "" || password == "") {
       Get.snackbar("Error", "Please Enter Email and Password");
     } else {
-      if (email == "khadeeja@gmail.com" && password == "123456") {
+      if (email == "khadeeja@gmail.com" && password == "khadeeeja123") {
         box.write("isLogin", true);
         Get.offAll(() => MyBottomNavbar());
-      } else if (email == "iqra@gmail.com" && password == "123456") {
+      } else if (email == "iqra@gmail.com" && password == "iqra123") {
         box.write("isLogin", true);
         Get.offAll(() => MyBottomNavbar());
-      } else if (email == "test@gmail.com" && password == "123456") {
+      } else if (email == "rukhsarfatima126@gmail.com" &&
+          password == "rukhsar123") {
         box.write("isLogin", true);
         Get.offAll(() => MyBottomNavbar());
       } else {
