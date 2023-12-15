@@ -22,53 +22,50 @@ class UserView extends StatelessWidget {
             width: Get.width,
             fit: BoxFit.fill,
           ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                AppBar(
-                  leading: InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios_new_outlined,
-                      color: white,
-                    ),
-                  ),
-                  title: ctext(
-                    text: 'Users',
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              AppBar(
+                leading: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios_new_outlined,
                     color: white,
                   ),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
                 ),
-                Expanded(
-                  child: FutureBuilder<Widget>(
-                    future: userController.fetchWholeData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasData) {
-                          return snapshot.data!;
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text("Error: ${snapshot.error}"),
-                          );
-                        } else {
-                          return const Center(child: Text("No User Found"));
-                        }
+                title: ctext(
+                  text: 'Users',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: white,
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ),
+              Expanded(
+                child: FutureBuilder<Widget>(
+                  future: userController.fetchWholeData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        return snapshot.data!;
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text("Error: ${snapshot.error}"),
+                        );
                       } else {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: Text("No User Found"));
                       }
-                    },
-                  ),
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

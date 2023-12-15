@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
 import 'package:solar_admin/view/nav_bar/chat_view/chat_view.dart';
 
 class ChatController extends GetxController {
@@ -125,7 +127,12 @@ class ChatController extends GetxController {
                             : imagePath,
                       ),
                     ),
-                    title: Text(doc["username"]),
+                    title: ctext(
+                      text: doc["username"],
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: white,
+                    ),
                     trailing: InkWell(
                         onTap: () {
                           deleteChats(
