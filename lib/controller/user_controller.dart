@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
+import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/text_widget.dart';
 
 class UserController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -49,14 +51,26 @@ class UserController extends GetxController {
                   ),
                   title: Row(
                     children: [
-                      Text(doc["username"] ?? "No Name"),
+                      ctext(
+                          text: doc["username"] ?? "No Name",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: btnPrimaryColor),
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(doc["phoneNumber"] ?? "No Phone Number"),
+                      ctext(
+                          text: doc["phoneNumber"] ?? "No Phone Number",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ],
                   ),
-                  subtitle: Text(doc["emailAddress"] ?? "No Email"),
+                  subtitle: ctext(
+                      text: doc["emailAddress"] ?? "No Email",
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey),
                 );
               },
             );

@@ -15,8 +15,7 @@ class MaintainanceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: primarycolor,
       body: Stack(
         children: [
@@ -81,6 +80,6 @@ class MaintainanceView extends StatelessWidget {
           ),
         ],
       ),
-    ));
+    );
   }
 }
