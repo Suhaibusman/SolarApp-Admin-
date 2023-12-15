@@ -37,7 +37,7 @@ class WelcomeView extends StatelessWidget {
                   textAlign: TextAlign.center),
               Center(
                 child: ctext(
-                    text: "Now book your all solar related services at a click",
+                    text: "You Can Manage Your Solar System Complain Here",
                     fontSize: 13.33,
                     fontWeight: FontWeight.w500,
                     color: lightPrimaryTextColor,
