@@ -6,14 +6,27 @@ import 'package:solar_admin/data.dart';
 import 'package:solar_admin/utils/constants/app_constant.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
-import 'package:solar_admin/utils/widgets/helper_widget.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 import 'package:solar_admin/view/splash/splash_view.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    homeController.totalComplain();
+    homeController.totalUser();
+    homeController.totalMaintainance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +35,22 @@ class HomeView extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: primarycolor,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
           title: ctext(
               text: "Home",
               fontWeight: FontWeight.bold,
               color: white,
               fontSize: 20),
-          leading: reusableBackButton(),
           actions: [
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: btnPrimaryColor,
-              child: Icon(
-                Icons.notifications,
-                color: white,
-              ),
-            ),
+            // CircleAvatar(
+            //   radius: 18,
+            //   backgroundColor: btnPrimaryColor,
+            //   child: Icon(
+            //     Icons.notifications,
+            //     color: white,
+            //   ),
+            // ),
             smallSpaceh,
             InkWell(
               onTap: () {
