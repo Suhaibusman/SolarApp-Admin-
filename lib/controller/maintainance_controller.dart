@@ -82,6 +82,127 @@ class MaintainanceController extends GetxController {
     }
   }
 
+  Future<Widget> fetchSpecificUserMaintenance({required String userId}) async {
+    return FutureBuilder<DocumentSnapshot>(
+      future: firestore.collection("maintenance").doc(userId).get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text("Error loading data"));
+        } else if (!snapshot.hasData || snapshot.data == null) {
+          return const Center(child: Text("No Data Found"));
+        }
+
+        DocumentSnapshot doc = snapshot.data!;
+
+        return Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 2,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ctext(
+                      text: doc["issue"] ?? "No Issue",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.blue,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        firestore
+                            .collection("maintenance")
+                            .doc(doc.id)
+                            .delete();
+                      },
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.grey.withOpacity(.6),
+                      ),
+                    ),
+                  ],
+                ),
+                ctext(
+                  text: doc["emailAddress"] ?? "No Email",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+                const SizedBox(width: 10),
+                Row(
+                  children: [
+                    ctext(
+                      text: "\$" + doc["price"].toString(),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(width: 10),
+                    ctext(
+                      text: doc["phoneNumber"] ?? "No Phone Number",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.green,
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 10),
+                ctext(text: doc["date"] ?? "No Date"),
+                const SizedBox(width: 10),
+                if (doc["progress"] == "pending")
+                  CustomButton(
+                    borderRadius: BorderRadius.circular(15),
+                    height: 43,
+                    mywidth: 1,
+                    onPressed: () {
+                      try {
+                        firestore
+                            .collection("maintenance")
+                            .doc(doc.id)
+                            .update({"progress": "Approved"}).then((value) =>
+                                openMail(email: doc["emailAddress"]));
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    child: 'Approve and Mail',
+                    gradientColors: [Colors.blue, Colors.green],
+                    color: Colors.green,
+                  )
+                else
+                  CustomButton(
+                    borderRadius: BorderRadius.circular(15),
+                    height: 43,
+                    mywidth: 1,
+                    onPressed: () {},
+                    child: 'Approved',
+                    gradientColors: [Colors.blue, Colors.green],
+                    color: Colors.green,
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<Widget> fetchMaintenanceReport() async {
     return StreamBuilder<QuerySnapshot>(
       stream: firestore.collection("maintainance").snapshots(),

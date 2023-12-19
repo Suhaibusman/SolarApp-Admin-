@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get.dart';
-import 'package:solar_admin/utils/constants/app_constant.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
 import 'package:solar_admin/utils/widgets/custom_button.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 import 'package:solar_admin/view/nav_bar/chat_view/chat_view.dart';
-import 'package:solar_admin/view/nav_bar/complaint_details/complaint_confirmation_view.dart';
+import 'package:solar_admin/view/nav_bar/complaint_details/specific_user_complain.dart';
+import 'package:solar_admin/view/nav_bar/maintainance/specific_user_maintenance.dart';
 
 class UserController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -48,39 +47,71 @@ class UserController extends GetxController {
                 return InkWell(
                   onTap: () {
                     Get.dialog(AlertDialog(
+                      // actionsAlignment: MainAxisAlignment.center,
+                      title: ctext(
+                        text: doc["username"] ?? "No Name",
+                        color: primaryTextColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                       actions: [
-                        CustomButton(
-                            borderRadius: BorderRadius.circular(15),
-                            height: 43,
-                            mywidth: Get.width * .4,
-                            onPressed: () {
-                              Get.to(() => ChatScreen(
-                                    username: doc["username"],
-                                    image: doc["profileImage"],
-                                    uid: doc["uid"],
-                                  ));
-                            },
-                            child: 'Chats',
-                            gradientColors: [
-                              btnPrimaryColor,
-                              btnSecondaryColor
-                            ],
-                            color: btnSecondaryColor),
-                        mediumSpaceh,
-                        CustomButton(
-                            borderRadius: BorderRadius.circular(15),
-                            height: 43,
-                            mywidth: Get.width * .4,
-                            onPressed: () {
-                              Get.to(() => SpecificUserComplain(
-                                  uid: doc["uid"], name: doc["username"]));
-                            },
-                            child: 'Complaints',
-                            gradientColors: [
-                              btnPrimaryColor,
-                              btnSecondaryColor
-                            ],
-                            color: btnSecondaryColor)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CustomButton(
+                                borderRadius: BorderRadius.circular(15),
+                                height: 43,
+                                mywidth: Get.width * .4,
+                                onPressed: () {
+                                  Get.to(() => ChatScreen(
+                                        username: doc["username"],
+                                        image: doc["profileImage"],
+                                        uid: doc["uid"],
+                                      ));
+                                },
+                                child: 'Chats',
+                                gradientColors: [
+                                  btnPrimaryColor,
+                                  btnSecondaryColor
+                                ],
+                                color: btnSecondaryColor),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomButton(
+                                borderRadius: BorderRadius.circular(15),
+                                height: 43,
+                                mywidth: Get.width * .2,
+                                onPressed: () {
+                                  Get.to(() => SpecificUserComplain(
+                                      uid: doc["uid"], name: doc["username"]));
+                                },
+                                child: 'Complaints',
+                                gradientColors: [
+                                  btnPrimaryColor,
+                                  btnSecondaryColor
+                                ],
+                                color: btnSecondaryColor),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomButton(
+                                borderRadius: BorderRadius.circular(15),
+                                height: 43,
+                                mywidth: Get.width * .2,
+                                onPressed: () {
+                                  Get.to(() => SpecificMaintenanceView(
+                                      name: doc["username"], uid: doc["uid"]));
+                                },
+                                child: 'Maintenance',
+                                gradientColors: [
+                                  btnPrimaryColor,
+                                  btnSecondaryColor
+                                ],
+                                color: btnSecondaryColor)
+                          ],
+                        ),
                       ],
                     ));
                   },
