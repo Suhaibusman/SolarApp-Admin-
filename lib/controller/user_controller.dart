@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get.dart';
+import 'package:solar_admin/utils/constants/app_constant.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/custom_button.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
+import 'package:solar_admin/view/nav_bar/chat_view/chat_view.dart';
+import 'package:solar_admin/view/nav_bar/complaint_details/complaint_confirmation_view.dart';
 
 class UserController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -40,37 +45,77 @@ class UserController extends GetxController {
                 DocumentSnapshot doc = snapshot.data!.docs[index];
                 //querysnaphot me pora data ayegaa
                 String imagePath = doc["profileImage"];
-                return ListTile(
-                  leading: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                      imagePath == ""
-                          ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
-                          : imagePath,
-                    ),
-                  ),
-                  title: Row(
-                    children: [
-                      ctext(
-                          text: doc["username"] ?? "No Name",
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: btnPrimaryColor),
-                      const SizedBox(
-                        width: 10,
+                return InkWell(
+                  onTap: () {
+                    Get.dialog(AlertDialog(
+                      actions: [
+                        CustomButton(
+                            borderRadius: BorderRadius.circular(15),
+                            height: 43,
+                            mywidth: Get.width * .4,
+                            onPressed: () {
+                              Get.to(() => ChatScreen(
+                                    username: doc["username"],
+                                    image: doc["profileImage"],
+                                    uid: doc["uid"],
+                                  ));
+                            },
+                            child: 'Chats',
+                            gradientColors: [
+                              btnPrimaryColor,
+                              btnSecondaryColor
+                            ],
+                            color: btnSecondaryColor),
+                        mediumSpaceh,
+                        CustomButton(
+                            borderRadius: BorderRadius.circular(15),
+                            height: 43,
+                            mywidth: Get.width * .4,
+                            onPressed: () {
+                              Get.to(() => SpecificUserComplain(
+                                  uid: doc["uid"], name: doc["username"]));
+                            },
+                            child: 'Complaints',
+                            gradientColors: [
+                              btnPrimaryColor,
+                              btnSecondaryColor
+                            ],
+                            color: btnSecondaryColor)
+                      ],
+                    ));
+                  },
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(
+                        imagePath == ""
+                            ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
+                            : imagePath,
                       ),
-                      ctext(
-                          text: doc["phoneNumber"] ?? "No Phone Number",
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ],
+                    ),
+                    title: Row(
+                      children: [
+                        ctext(
+                            text: doc["username"] ?? "No Name",
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: btnPrimaryColor),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ctext(
+                            text: doc["phoneNumber"] ?? "No Phone Number",
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ],
+                    ),
+                    subtitle: ctext(
+                        text: doc["emailAddress"] ?? "No Email",
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey),
                   ),
-                  subtitle: ctext(
-                      text: doc["emailAddress"] ?? "No Email",
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey),
                 );
               },
             );

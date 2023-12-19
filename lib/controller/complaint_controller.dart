@@ -59,4 +59,27 @@ class ComplaintController extends GetxController {
       print('Error launching Gmail: $e');
     }
   }
+
+  Stream<List<Map<String, dynamic>>> getSpecificComplains(uid) {
+    // Create a reference to the collection
+    CollectionReference userComplain = firestore.collection("complain");
+
+    // Return a stream of snapshots
+    return userComplain.snapshots().map((complainSnapshot) {
+      List<Map<String, dynamic>> complainDataList = [];
+
+      if (complainSnapshot.docs.isNotEmpty) {
+        complainSnapshot.docs.forEach((DocumentSnapshot document) {
+          Map<String, dynamic> complainData =
+              document.data() as Map<String, dynamic>;
+          // Check if the 'uid' in the document matches the current logged-in UID
+          if (complainData['uid'] == uid) {
+            complainDataList.add(complainData);
+          }
+        });
+      }
+
+      return complainDataList;
+    });
+  }
 }

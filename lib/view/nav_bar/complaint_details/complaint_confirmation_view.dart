@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:solar_admin/controller/complaint_controller.dart';
 import 'package:solar_admin/utils/constants/app_constant.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
@@ -8,92 +11,175 @@ import 'package:solar_admin/utils/widgets/custom_button.dart';
 import 'package:solar_admin/utils/widgets/helper_widget.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 
-class ComplaintConfirmationView extends StatelessWidget {
-  const ComplaintConfirmationView({super.key});
+class SpecificUserComplain extends StatelessWidget {
+  final String name;
+  final String uid;
+  const SpecificUserComplain(
+      {super.key, required this.uid, required this.name});
+
+  yourFunction(DocumentSnapshot doc) {
+    Timestamp timestamp = doc['timestamp'];
+
+    // Handle null case if needed
+    DateTime complaintDate = timestamp.toDate();
+
+    // Call the ctext function or use the formatted date as needed
+    return ctext(
+      text: DateFormat('yyyy-MM-dd HH:mm:ss').format(complaintDate),
+      fontWeight: FontWeight.bold,
+      fontSize: 11,
+      color: Colors.grey.withOpacity(0.6),
+    );
+
+    // Or do something else with the complaintDate...
+  }
 
   @override
   Widget build(BuildContext context) {
+    ComplaintController complainController = Get.put(ComplaintController());
     return Scaffold(
         backgroundColor: primarycolor,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: ctext(
-              text: "Confirmation Details",
-              fontWeight: FontWeight.bold,
-              color: white,
-              fontSize: 20),
-          leading: reusableBackButton(),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-        body: Stack(children: [
-          SvgPicture.asset(
-            SvgConstants.homeBg,
-            width: Get.width,
-            fit: BoxFit.fill,
-          ),
-          SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  mediumSpace,
-                  Align(
-                      alignment: Alignment.center,
-                      child: Image.asset(
-                        IconsConstants.checkIcon,
-                        height: Get.height * 0.08,
-                      )),
-                  mediumSpace,
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 60.0, vertical: Get.height * 0.08),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(70),
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            const Color(0xff616573),
-                            Colors.black.withOpacity(.4),
-                            const Color(0xff616573)
-                          ],
-                        ),
-                      ),
-                      child: ctext(
-                          text: """Thank you for contacting us,
-we will soon took into the matter!
+        body: Stack(
+          children: [
+            SvgPicture.asset(
+              SvgConstants.homeBg,
+              width: Get.width,
+              fit: BoxFit.fill,
+            ),
+            AppBar(
+              elevation: 0.0,
+              automaticallyImplyLeading: true,
+              leading: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(Icons.arrow_back_ios_new, color: white)),
+              title: ctext(
+                  text: "Complains",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: white),
+              backgroundColor: Colors.transparent,
+            ),
+            StreamBuilder<List<Map<String, dynamic>>>(
+              stream: complainController.getSpecificComplains(uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  List<Map<String, dynamic>> complainReports = snapshot.data!;
+                  if (complainReports.isEmpty) {
+                    return const Center(child: Text("No Complain Found"));
+                  }
 
-Tracking Id:982017391""",
-                          fontSize: 16,
-                          color: white,
-                          textAlign: TextAlign.center),
-                    ),
-                  ),
-                  mediumSpace,
-                  CustomButton(
-                    borderRadius: BorderRadius.circular(50),
-                    height: 70,
-                    mywidth: 0.9,
-                    onPressed: () {},
-                    child: 'Complaint Submitted',
-                    gradientColors: [
-                      btnPrimaryColor,
-                      Colors.black.withOpacity(.4),
-                      Colors.black.withOpacity(.4),
-                      btnPrimaryColor,
-                    ],
-                    color: const Color.fromARGB(255, 51, 55, 69),
-                  ),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Image.asset(
-                        ImageConstants.confirmationImage,
-                        height: Get.height * 0.25,
-                      ))
-                ]),
-          ).paddingOnly(top: Get.height * 0.14)
-        ]));
+                  return ListView.builder(
+                    itemCount: complainReports.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> complainData =
+                          complainReports[index];
+
+                      DateTime dateTime = complainData['timestamp']
+                          .toDate(); // Convert timestamp to DateTime
+
+                      return Card(
+                        color: white,
+                        elevation: 12,
+                        shadowColor: btnPrimaryColor,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                ctext(
+                                  text: complainData['title'],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                ),
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () {
+                                    complainController.deleteComplain(
+                                        complainData['complaintNumber']);
+                                  },
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.grey.withOpacity(.6),
+                                  ),
+                                )
+                              ],
+                            ),
+                            extraSmallSpace,
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_month_outlined,
+                                  size: 14,
+                                  color: Colors.grey.withOpacity(.6),
+                                ),
+                                ctext(
+                                  text: DateFormat('yyyy-MM-dd HH:mm:ss')
+                                      .format(dateTime),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                  color: Colors.grey.withOpacity(.6),
+                                ),
+                              ],
+                            ),
+                            extraSmallSpace,
+                            Row(
+                              children: [
+                                ctext(
+                                  text: "Status: ",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                ),
+                                ctext(
+                                  text: complainData['status'],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            ),
+                            extraSmallSpace,
+                            Row(
+                              children: [
+                                ctext(
+                                  text: "Progress: ",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                ),
+                                ctext(
+                                  text: complainData['progress'],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                  color: btnPrimaryColor,
+                                ),
+                                const Spacer(),
+                              ],
+                            )
+                          ],
+                        ).paddingOnly(left: 12, top: 12, bottom: 12, right: 12),
+                      );
+                    },
+                  );
+                  // ... (remaining code)
+                } else {
+                  return ctext(
+                      color: Colors.white,
+                      text: "No Complain Found",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20);
+                }
+              },
+            ),
+          ],
+        ));
   }
 }
