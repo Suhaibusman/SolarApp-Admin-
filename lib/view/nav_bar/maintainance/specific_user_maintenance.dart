@@ -31,8 +31,8 @@ class SpecificMaintenanceView extends StatelessWidget {
           ),
         ),
         title: ctext(
-          text: name,
-          fontSize: 22,
+          text: "$name Maintenance Report",
+          fontSize: 14,
           fontWeight: FontWeight.bold,
           color: white,
         ),
@@ -58,20 +58,27 @@ class SpecificMaintenanceView extends StatelessWidget {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
                         return snapshot.data!;
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text("Error: ${snapshot.error}"),
-                        );
                       } else {
                         return Center(
-                            child: ctext(
-                                text: "No Maintenance Found",
-                                color: white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold));
+                          child: ctext(
+                            text: "No Maintenance Found",
+                            color: white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
                       }
-                    } else {
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text("Error: ${snapshot.error}"),
+                      );
+                    } else {
+                      // Handle other ConnectionState values if needed
+                      return const Center(
+                          child: Text("Unexpected ConnectionState"));
                     }
                   },
                 ),
