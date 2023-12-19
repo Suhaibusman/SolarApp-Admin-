@@ -17,6 +17,26 @@ class MaintainanceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primarycolor,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: white,
+          ),
+        ),
+        title: ctext(
+          text: 'Mainencance Report',
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: white,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Stack(
         children: [
           SvgPicture.asset(
@@ -28,27 +48,6 @@ class MaintainanceView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              AppBar(
-                leading: InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: white,
-                  ),
-                ),
-                title: ctext(
-                  text: 'Mainencance Report',
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: white,
-                ),
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-              ).paddingOnly(
-                top: 10,
-              ),
               Expanded(
                 child: FutureBuilder<Widget>(
                   future: maintainanceController.fetchMaintenanceReport(),
@@ -61,7 +60,12 @@ class MaintainanceView extends StatelessWidget {
                           child: Text("Error: ${snapshot.error}"),
                         );
                       } else {
-                        return const Center(child: Text("No User Found"));
+                        return Center(
+                            child: ctext(
+                                text: "No Maintenance Found",
+                                color: white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold));
                       }
                     } else {
                       return const Center(child: CircularProgressIndicator());

@@ -15,6 +15,26 @@ class ChatUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primarycolor,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: white,
+          ),
+        ),
+        title: ctext(
+          text: 'Chat User',
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: white,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Stack(
         children: [
           SvgPicture.asset(
@@ -26,25 +46,6 @@ class ChatUser extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              AppBar(
-                leading: InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: white,
-                  ),
-                ),
-                title: ctext(
-                  text: 'Chat User',
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: white,
-                ),
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-              ).paddingOnly(top: 10, bottom: 10),
               Expanded(
                 child: FutureBuilder<Widget>(
                   future: chatController.fetchWholeData(),

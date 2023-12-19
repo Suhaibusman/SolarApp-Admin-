@@ -15,6 +15,26 @@ class UserView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primarycolor,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: white,
+          ),
+        ),
+        title: ctext(
+          text: 'Users',
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: white,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Stack(
         children: [
           SvgPicture.asset(
@@ -26,25 +46,6 @@ class UserView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              AppBar(
-                leading: InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: white,
-                  ),
-                ),
-                title: ctext(
-                  text: 'Users',
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: white,
-                ),
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-              ),
               Expanded(
                 child: FutureBuilder<Widget>(
                   future: userController.fetchWholeData(),
@@ -57,7 +58,12 @@ class UserView extends StatelessWidget {
                           child: Text("Error: ${snapshot.error}"),
                         );
                       } else {
-                        return const Center(child: Text("No User Found"));
+                        return Center(
+                            child: ctext(
+                                text: "No Users Found",
+                                color: white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold));
                       }
                     } else {
                       return const Center(child: CircularProgressIndicator());

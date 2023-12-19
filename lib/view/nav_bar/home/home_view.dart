@@ -42,14 +42,6 @@ class _HomeViewState extends State<HomeView> {
             color: white,
             fontSize: 20),
         actions: [
-          // CircleAvatar(
-          //   radius: 18,
-          //   backgroundColor: btnPrimaryColor,
-          //   child: Icon(
-          //     Icons.notifications,
-          //     color: white,
-          //   ),
-          // ),
           smallSpaceh,
           InkWell(
             onTap: () {
@@ -100,49 +92,52 @@ class _HomeViewState extends State<HomeView> {
                       color: white, borderRadius: BorderRadius.circular(25)),
                 ),
                 mediumSpace,
-                Container(
-                  height: Get.height * 0.75,
-                  decoration: BoxDecoration(
-                      color: const Color(0xff192444).withOpacity(.4),
-                      borderRadius: BorderRadius.circular(30)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 45.0,
-                      crossAxisSpacing: 35.0,
-                      childAspectRatio: MediaQuery.of(context).size.width *
-                          .9 /
-                          (MediaQuery.of(context).size.height * 0.9 / 2),
-                    ),
-                    padding: EdgeInsets.only(top: Get.height * 0.05),
-                    itemCount: homeController.grinImagesList.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Get.to(homeController.pagesView[index]);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(25)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(homeController.grinImagesList[index]),
-                              extraSmallSpace,
-                              Obx(() => ctext(
-                                  text: homeController.gridTextList[index]
-                                      .toString(),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w300,
-                                  textAlign: TextAlign.center)),
-                            ],
+                Center(
+                  child: Container(
+                    height: Get.height * 0.5,
+                    decoration: BoxDecoration(
+                        color: const Color(0xff192444).withOpacity(.4),
+                        borderRadius: BorderRadius.circular(30)),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 45.0,
+                        crossAxisSpacing: 35.0,
+                        childAspectRatio: MediaQuery.of(context).size.width *
+                            .9 /
+                            (MediaQuery.of(context).size.height * 0.9 / 2),
+                      ),
+                      padding: EdgeInsets.only(top: Get.height * 0.05),
+                      itemCount: homeController.grinImagesList.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Get.to(homeController.pagesView[index]);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(25)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                    homeController.grinImagesList[index]),
+                                extraSmallSpace,
+                                Obx(() => ctext(
+                                    text: homeController.gridTextList[index]
+                                        .toString(),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300,
+                                    textAlign: TextAlign.center)),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 )
               ],

@@ -131,7 +131,7 @@ class ChatController extends GetxController {
                       text: doc["username"],
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: white,
+                      color: btnPrimaryColor,
                     ),
                     trailing: InkWell(
                         onTap: () {

@@ -169,8 +169,8 @@ class MaintainanceController extends GetxController {
                         const SizedBox(
                           width: 10,
                         ),
-                        dateFunction(doc),
-                        // Text(doc["date"] ?? "No Date"),
+                        // dateFunction(doc),
+                        ctext(text: doc["date"] ?? "No Date"),
                         const SizedBox(
                           width: 10,
                         ),
