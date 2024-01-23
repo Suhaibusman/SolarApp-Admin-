@@ -42,8 +42,8 @@ class HomeController extends GetxController {
     // ChangePasswordView()
   ];
   List get gridTextList => [
-        "TotalUser = $totalUser", // Access totalUser without .value during initialization
-        "TotalChats", // Access totalChats without .value during initialization
+        "Total User = $totalUser", // Access totalUser without .value during initialization
+        "Total Chats", // Access totalChats without .value during initialization
         "Complaint = $totalComplain", // Access totalMaintainance without .value during initialization
         "Maintainance = $totalMaintainance",
         // "Contact Us",

@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:solar_admin/controller/maintainance_controller.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
+import 'package:solar_admin/utils/widgets/nav_bar.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
+import 'package:solar_admin/view/nav_bar/home/home_view.dart';
 
 // ignore: must_be_immutable
 class MaintainanceView extends StatelessWidget {
@@ -21,7 +23,7 @@ class MaintainanceView extends StatelessWidget {
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
-            Get.back();
+            Get.to(HomeView());
           },
           child: Icon(
             Icons.arrow_back_ios_new_outlined,
