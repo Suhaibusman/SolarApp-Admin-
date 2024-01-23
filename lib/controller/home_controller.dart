@@ -42,8 +42,8 @@ class HomeController extends GetxController {
     // ChangePasswordView()
   ];
   List get gridTextList => [
-        "totalUser = $totalUser", // Access totalUser without .value during initialization
-        "totalChats", // Access totalChats without .value during initialization
+        "TotalUser = $totalUser", // Access totalUser without .value during initialization
+        "TotalChats", // Access totalChats without .value during initialization
         "Complaint = $totalComplain", // Access totalMaintainance without .value during initialization
         "Maintainance = $totalMaintainance",
         // "Contact Us",
@@ -53,46 +53,57 @@ class HomeController extends GetxController {
   // ... rest of the code ...
 
   void countOfUser() {
-    FirebaseFirestore.instance.collection('users').get().then(
+    FirebaseFirestore.instance.collection('users').snapshots().listen(
       (QuerySnapshot querySnapshot) {
         if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
+          // Update the Rx variable with the user count
           totalUser.value = querySnapshot.docs.length;
         } else {
+          // Set user count to 0 if no users are found
           totalUser.value = 0;
         }
       },
-    ).catchError((error) {
-      // Handle the error as needed
-    });
+      onError: (error) {
+        // Handle the error as needed
+      },
+    );
   }
 
-  countOfComplain() async {
-    try {
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('complain').get();
-
-      // Extract and print the count value from the QuerySnapshot
-      int count = querySnapshot.size;
-
-      // Update the totalComplain value
-      totalComplain.value = count;
-    } catch (e) {}
+  void countOfComplain() {
+    FirebaseFirestore.instance.collection('complain').snapshots().listen(
+      (QuerySnapshot querySnapshot) {
+        if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
+          // Update the Rx variable with the user count
+          totalComplain.value = querySnapshot.docs.length;
+        } else {
+          // Set user count to 0 if no users are found
+          totalComplain.value = 0;
+        }
+      },
+      onError: (error) {
+        // Handle the error as needed
+      },
+    );
   }
-
-  // Future countOfComplain() async {
-  //   // Use `doc()` to access an AggregateQuery
-  //   AggregateQuery querySnapshot = FirebaseFirestore.instance
-  //       .collection('complain')
-  //       .doc() as AggregateQuery;
-
-  //   final result = await querySnapshot.get();
-
-  //   // Extract and return the count value from the document
-  //   print(" count of complain${result.count}");
-  //   totalComplain.value = result.count;
-  // }
 
   void countOfmaintainance() {
+    FirebaseFirestore.instance.collection('maintainance').snapshots().listen(
+      (QuerySnapshot querySnapshot) {
+        if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
+          // Update the Rx variable with the user count
+          totalMaintainance.value = querySnapshot.docs.length;
+        } else {
+          // Set user count to 0 if no users are found
+          totalMaintainance.value = 0;
+        }
+      },
+      onError: (error) {
+        // Handle the error as needed
+      },
+    );
+  }
+
+  void countOf() {
     FirebaseFirestore.instance.collection('maintainance').get().then(
       (QuerySnapshot querySnapshot) {
         if (querySnapshot != null && querySnapshot.docs.isNotEmpty) {
@@ -105,16 +116,4 @@ class HomeController extends GetxController {
       // Handle the error as needed
     });
   }
-
-//   Future<List<DocumentSnapshot>> getComplains() async {
-
-//     CollectionReference userComplain =
-//         firestore.collection("users").doc(userUID).collection("complain");
-//     QuerySnapshot complainSbapshot = await userComplain.get();
-
-//     if (complainSbapshot.docs.isNotEmpty) {
-//       return complainSbapshot.docs;
-//     }
-//     return [];
-//   }
 }
