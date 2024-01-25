@@ -6,7 +6,6 @@ import 'package:solar_admin/data.dart';
 import 'package:solar_admin/utils/constants/app_constant.dart';
 import 'package:solar_admin/utils/constants/image_constant.dart';
 import 'package:solar_admin/utils/themes/color_theme.dart';
-import 'package:solar_admin/utils/widgets/nav_bar.dart';
 import 'package:solar_admin/utils/widgets/text_widget.dart';
 import 'package:solar_admin/view/splash/splash_view.dart';
 

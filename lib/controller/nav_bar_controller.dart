@@ -4,7 +4,6 @@ import 'package:solar_admin/view/nav_bar/complaint_details/coplaints_view.dart';
 import 'package:solar_admin/view/nav_bar/home/home_view.dart';
 import 'package:solar_admin/view/nav_bar/maintainance/maintainance_view.dart';
 import 'package:solar_admin/view/nav_bar/user/user_view.dart';
-import 'package:solar_admin/view/nav_bar/profile/profile_view.dart';
 
 class BottomNavBarController extends GetxController {
   RxInt currentIndex = 0.obs;
@@ -39,9 +38,6 @@ class BottomNavBarController extends GetxController {
         break;
       case 3:
         _currentScreen = MaintainanceView();
-        break;
-      case 4:
-        _currentScreen = ProfileView();
         break;
       default:
         break;
